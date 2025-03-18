@@ -9,3 +9,5 @@ PHOFF2 = 0
 GRAV = -9.8
 NEWTONS = 500
 SLEEPTIME = (1/120)
+
+numberOfGenerations = 10
