@@ -11,6 +11,7 @@ class SIMULATION:
 
     def __init__(self):
         self.directOrGUI = sys.argv[1]
+        self.brainID = sys.argv[2]
         if self.directOrGUI == "DIRECT":
             self.physicsClient = p.connect(p.DIRECT)
         elif self.directOrGUI == "GUI":
@@ -18,7 +19,7 @@ class SIMULATION:
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
         p.setGravity(0, 0, c.GRAV)
         self.world = WORLD()
-        self.robot = ROBOT()
+        self.robot = ROBOT(self.brainID)
 
     def run(self):
         for i in range(c.STEPS):
@@ -28,7 +29,8 @@ class SIMULATION:
             self.robot.act()
             #print(i)
 
-            t.sleep(c.SLEEPTIME)
+            if self.directOrGUI == "GUI":
+                t.sleep(c.SLEEPTIME)
 
     def get_fitness(self):
         self.robot.get_fitness()

@@ -11,3 +11,4 @@ NEWTONS = 500
 SLEEPTIME = (1/120)
 
 numberOfGenerations = 10
+populationSize =10

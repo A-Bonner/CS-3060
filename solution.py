@@ -2,19 +2,34 @@ import numpy as numpy
 import pyrosim.pyrosim as pyrosim
 import random as random
 import os as os
+import time as time
 
 class SOLUTION:
-    def __init__(self):
+    def __init__(self, ID):
+        self.myID = ID
         self.weights = numpy.array([[numpy.random.rand(), numpy.random.rand()], [numpy.random.rand(), numpy.random.rand()], [numpy.random.rand(), numpy.random.rand()]])
         self.weights = (self.weights * 2) - 1
 
     def evaluate(self, runType):
+        self.start_Simulation(runType)
+        self.wait_For_Simulation_To_End()
+
+    def start_Simulation(self, runType):
         self.create_mind()
         self.create_body()
         self.create_world()
-        os.system("python simulate.py " + runType)
-        fitnessFile = open("fitness.txt", "r")
-        self.fitness = float(fitnessFile.read())
+        os.system("start /B python simulate.py " + runType + " " + str(self.myID))
+
+    def wait_For_Simulation_To_End(self):
+        while not os.path.exists("fitness" + str(self.myID) + ".txt"):
+            time.sleep(0.1)
+        try:
+            with open("fitness" + str(self.myID) + ".txt", "r") as fitnessFile:
+                self.fitness = float(fitnessFile.read())
+        except PermissionError:
+            time.sleep(0.1)
+        #fitnessFile.close()
+        os.system("del fitness" + str(self.myID) + ".txt")
 
     def create_body(self):
         pyrosim.Start_URDF("body.urdf")
@@ -25,7 +40,7 @@ class SOLUTION:
         pyrosim.Send_Cube(name="BackLeg", pos=[-0.5, 0, -0.5], size=[1, 1, 1])
         pyrosim.End()
     def create_mind(self):
-        pyrosim.Start_NeuralNetwork("brain.nndf")
+        pyrosim.Start_NeuralNetwork("brain" + str(self.myID) + ".nndf")
         pyrosim.Send_Sensor_Neuron(name=0, linkName="Torso")
         pyrosim.Send_Sensor_Neuron(name=1, linkName="FrontLeg")
         pyrosim.Send_Sensor_Neuron(name=2, linkName="BackLeg")
@@ -44,3 +59,6 @@ class SOLUTION:
         rowToMut = random.randint(0, 2)
         colToMut = random.randint(0, 1)
         self.weights[rowToMut][colToMut] = random.random() * 2 - 1
+
+    def set_ID(self, ID):
+        self.myID = ID

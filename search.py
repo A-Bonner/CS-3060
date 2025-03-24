@@ -1,8 +1,11 @@
 import os as os
-from hillClimber import HILLCLIMBER
+from parallelHillClimber import PARALLELHILLCLIMBER
+import time as time
 
-for i in range(0,2):
-    hc = HILLCLIMBER()
-    hc.evolve()
-    hc.show_best()
+
+for i in range(0,1):
+    phc = PARALLELHILLCLIMBER()
+    phc.evolve()
+    phc.show_best()
+    time.sleep(0.1)
 
