@@ -11,4 +11,7 @@ NEWTONS = 500
 SLEEPTIME = (1/120)
 
 numberOfGenerations = 10
-populationSize =10
+populationSize = 10
+numSensorNeurons = 9
+numMotorNeurons = 8
+motorJointRange = 0.3

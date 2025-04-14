@@ -39,7 +39,7 @@ class PARALLELHILLCLIMBER:
     def select(self):
         for i in range(0, len(self.parents)):
             for j in range(0, len(self.children)):
-                if self.parents[i].fitness > self.children[j].fitness:
+                if self.parents[i].fitness < self.children[j].fitness:
                     self.parents[i] = self.children[j]
 
     def print(self):

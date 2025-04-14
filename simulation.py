@@ -6,6 +6,7 @@ import constants as c
 import pyrosim.pyrosim as pyrosim
 import time as t
 import sys as sys
+import os as os
 
 class SIMULATION:
 
@@ -22,18 +23,23 @@ class SIMULATION:
         self.robot = ROBOT(self.brainID)
 
     def run(self):
+        file = open("tmp" + str(self.brainID) + ".txt", "w")
         for i in range(c.STEPS):
             p.stepSimulation()
             self.robot.think()
             self.robot.sense(i)
             self.robot.act()
+            zPos = self.get_fitness()
+            file.write(str(zPos)+"\n")
             #print(i)
 
             if self.directOrGUI == "GUI":
                 t.sleep(c.SLEEPTIME)
+        file.close()
+        os.rename("tmp" + str(self.brainID) + ".txt", "fitness" + str(self.brainID) + ".txt")
 
     def get_fitness(self):
-        self.robot.get_fitness()
+        return self.robot.get_fitness()
 
     def __del__(self):
         p.disconnect()
