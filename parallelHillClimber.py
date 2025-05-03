@@ -2,6 +2,7 @@ from solution import SOLUTION
 import constants as c
 import copy as copy
 import os as os
+import numpy as numpy
 
 class PARALLELHILLCLIMBER:
     def __init__(self):
@@ -10,6 +11,7 @@ class PARALLELHILLCLIMBER:
         os.system("del sensor*.txt")
         self.nextAvailableID = 0
         self.parents = {}
+        self.data = numpy.zeros([c.populationSize, c.numberOfGenerations])
         for i in range(0, c.populationSize):
             self.parents[i] = SOLUTION(self.nextAvailableID)
             self.nextAvailableID += 1
@@ -47,6 +49,7 @@ class PARALLELHILLCLIMBER:
         for i in range(0, len(self.parents)):
             for j in range(0, len(self.children)):
                 print(self.parents[i].fitness, self.children[j].fitness)
+                self.data[i][j] = self.children[i].fitness
             print()
 
     def show_best(self):

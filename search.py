@@ -1,6 +1,7 @@
 import os as os
 from parallelHillClimber import PARALLELHILLCLIMBER
 import time as time
+import numpy as numpy
 
 
 for i in range(0,1):
@@ -8,4 +9,5 @@ for i in range(0,1):
     phc.evolve()
     phc.show_best()
     time.sleep(0.1)
+numpy.savetxt("AFitnesses.txt", phc.data)
 
