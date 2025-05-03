@@ -11,8 +11,7 @@ class SOLUTION:
         self.weights = numpy.zeros((c.numSensorNeurons, c.numMotorNeurons))
         for i in range(0, c.numSensorNeurons):
             for j in range(0, c.numMotorNeurons):
-                self.weights[i][j] = numpy.random.rand()
-        self.weights = (self.weights * 2) - 1
+                self.weights[i][j] = (numpy.random.rand() * 2) -1
 
     def evaluate(self, runType):
         self.start_Simulation(runType)
@@ -25,10 +24,10 @@ class SOLUTION:
         os.system("start /B python simulate.py " + runType + " " + str(self.myID))
 
     def wait_For_Simulation_To_End(self):
-        while not os.path.exists("fitness" + str(self.myID) + ".txt"):
+        while not os.path.exists("fitnessA" + str(self.myID) + ".txt"):
             time.sleep(0.2)
         try:
-            with open("fitness" + str(self.myID) + ".txt", "r") as fitnessFile:
+            with open("fitnessA" + str(self.myID) + ".txt", "r") as fitnessFile:
                 positions = fitnessFile.readlines()
                 maxHeight = 0
                 for line in positions:
@@ -36,7 +35,7 @@ class SOLUTION:
                     if height > maxHeight:
                         maxHeight = height
                 self.fitness = maxHeight
-            with open("sensor" + str(self.myID) + ".txt", "r") as sensorFile:
+            with open("sensorA" + str(self.myID) + ".txt", "r") as sensorFile:
                 hop = False
                 jumpLen = 0
                 maxJump = 0
@@ -46,23 +45,23 @@ class SOLUTION:
                         hop = True
                         jumpLen += 1
                     else:
-                        jumpLen = 0
                         if jumpLen > maxJump:
                             maxJump = jumpLen
+                        jumpLen = 0
                 if not hop:
-                    self.fitness -= 1
+                    self.fitness -= 5
                 else:
                     self.fitness += (100 * (maxJump/len(sensorData)))
 
         except PermissionError:
             time.sleep(0.1)
         #fitnessFile.close()
-        os.system("del fitness" + str(self.myID) + ".txt")
-        os.system("del sensor" + str(self.myID) + ".txt")
+        os.system("del fitnessA" + str(self.myID) + ".txt")
+        os.system("del sensorA" + str(self.myID) + ".txt")
 
     def create_body(self):
-        pyrosim.Start_URDF("body.urdf")
-        pyrosim.Send_Cube(name="Torso", pos=[0, 0, 1], size=[2, 1, 1])
+        pyrosim.Start_URDF("bodyA.urdf")
+        pyrosim.Send_Cube(name="Torso", pos=[0, 0, 1], size=[1, 1, 1])
 
         pyrosim.Send_Joint(name="Torso_FrontUpper", parent="Torso", child="FrontUpper", type="revolute", position=[0, 0.5, 1], jointAxis="1 0 0")
         pyrosim.Send_Cube(name="FrontUpper", pos=[0, 0.5, 0], size=[0.2,1,0.2])
@@ -86,7 +85,7 @@ class SOLUTION:
         pyrosim.End()
 
     def create_mind(self):
-        pyrosim.Start_NeuralNetwork("brain" + str(self.myID) + ".nndf")
+        pyrosim.Start_NeuralNetwork("brainA" + str(self.myID) + ".nndf")
         pyrosim.Send_Sensor_Neuron(name=0, linkName="Torso")
         pyrosim.Send_Sensor_Neuron(name=1, linkName="FrontUpper")
         pyrosim.Send_Sensor_Neuron(name=2, linkName="FrontLower")

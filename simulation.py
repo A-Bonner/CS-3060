@@ -24,7 +24,7 @@ class SIMULATION:
 
     def run(self):
         file = open("tmp" + str(self.brainID) + ".txt", "w")
-        sensFile = open("sensor" + str(self.brainID) + ".txt", "w")
+        sensFile = open("sensorA" + str(self.brainID) + ".txt", "w")
         for i in range(c.STEPS):
             p.stepSimulation()
             self.robot.think()
@@ -38,7 +38,7 @@ class SIMULATION:
                 t.sleep(c.SLEEPTIME)
         sensFile.close()
         file.close()
-        os.rename("tmp" + str(self.brainID) + ".txt", "fitness" + str(self.brainID) + ".txt")
+        os.rename("tmp" + str(self.brainID) + ".txt", "fitnessA" + str(self.brainID) + ".txt")
 
     def get_fitness(self):
         return self.robot.get_fitness()

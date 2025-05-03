@@ -9,12 +9,12 @@ class ROBOT:
 
     def __init__(self, ID):
         self.bID = ID
-        self.robotId = p.loadURDF("body.urdf")
-        self.nn = NEURAL_NETWORK("brain" + str(self.bID) + ".nndf")
+        self.robotId = p.loadURDF("bodyA.urdf")
+        self.nn = NEURAL_NETWORK("brainA" + str(self.bID) + ".nndf")
         pyrosim.Prepare_To_Simulate(self.robotId)
         self.prepare_to_sense()
         self.prepare_to_act()
-        os.system("del brain" + str(self.bID) + ".nndf")
+        os.system("del brainA" + str(self.bID) + ".nndf")
 
     def prepare_to_sense(self):
         self.sensors = {}
