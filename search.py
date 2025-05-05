@@ -9,13 +9,17 @@ phcA = PARALLELHILLCLIMBER()
 phcA.evolve()
 time.sleep(0.1)
 numpy.save("AFitnesses.npy", phcA.data)
+numpy.savetxt("AFitnesses.txt", phcA.data)
+phcA.show_best()
 
 time.sleep(2)
-
+"""
 phcB = PARALLELHILLCLIMBERB()
 phcB.evolve()
 time.sleep(0.1)
 numpy.save("BFitnesses.npy", phcB.data)
-
-phcA.show_best()
+numpy.savetxt("BFitnesses.txt", phcB.data)
 phcB.show_best()
+
+time.sleep(2)
+"""

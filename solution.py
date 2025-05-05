@@ -9,9 +9,10 @@ class SOLUTION:
     def __init__(self, ID):
         self.myID = ID
         self.weights = numpy.zeros((c.numSensorNeurons, c.numMotorNeurons))
-        for i in range(0, c.numSensorNeurons):
-            for j in range(0, c.numMotorNeurons):
+        for i in range(c.numSensorNeurons):
+            for j in range(c.numMotorNeurons):
                 self.weights[i][j] = (numpy.random.rand() * 2) -1
+                #print(self.weights[i][j])
 
     def evaluate(self, runType):
         self.start_Simulation(runType)
@@ -54,10 +55,11 @@ class SOLUTION:
                     self.fitness += (100 * (maxJump/len(sensorData)))
 
         except PermissionError:
-            time.sleep(0.1)
+            time.sleep(0.2)
         #fitnessFile.close()
         os.system("del fitnessA" + str(self.myID) + ".txt")
         os.system("del sensorA" + str(self.myID) + ".txt")
+        print(self.fitness, '\n')
 
     def create_body(self):
         pyrosim.Start_URDF("bodyA.urdf")
@@ -105,8 +107,8 @@ class SOLUTION:
         pyrosim.Send_Motor_Neuron(name=15, jointName="Torso_RightUpper")
         pyrosim.Send_Motor_Neuron(name=16, jointName="RightUpper_RightLower")
 
-        for currentRow in range(0, c.numSensorNeurons):
-            for currentCol in range(0, c.numMotorNeurons):
+        for currentRow in range(c.numSensorNeurons):
+            for currentCol in range(c.numMotorNeurons):
                 pyrosim.Send_Synapse(currentRow, currentCol+c.numSensorNeurons, self.weights[currentRow][currentCol])
         pyrosim.End()
     def create_world(self):
@@ -115,8 +117,8 @@ class SOLUTION:
         pyrosim.End()
 
     def mutate(self):
-        rowToMut = random.randint(0, 2)
-        colToMut = random.randint(0, 1)
+        rowToMut = random.randint(0, (c.numSensorNeurons-1))
+        colToMut = random.randint(0, (c.numMotorNeurons-1))
         self.weights[rowToMut][colToMut] = (numpy.random.rand() * 2) - 1
 
     def set_ID(self, ID):

@@ -34,10 +34,7 @@ class ROBOTB:
         self.frequency = c.FREQ
         self.offset = c.PHOFF
         for jointName in pyrosim.jointNamesToIndices:
-            if jointName == "Torso_FrontLeg":
-                self.motors[jointName] = MOTOR(jointName, self.amplitude)
-            else:
-                self.motors[jointName] = MOTOR(jointName, (self.amplitude * 2))
+            self.motors[jointName] = MOTOR(jointName, self.amplitude)
 
 
 
@@ -46,6 +43,7 @@ class ROBOTB:
             if self.nn.Is_Motor_Neuron(neuronName):
                 jointName = self.nn.Get_Motor_Neurons_Joint(neuronName)
                 desiredAngle = self.nn.Get_Value_Of(neuronName) * c.motorJointRange
+                print("\n", jointName, "-", desiredAngle, "\n")
                 self.motors[jointName].set_value(self.robotId, desiredAngle)
 
     def think(self):

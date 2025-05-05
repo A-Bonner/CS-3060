@@ -131,7 +131,7 @@ class NEURON:
         self.Set_Value(pyrosim.Get_Touch_Sensor_Value_For_Link(self.Get_Link_Name()))
 
     def Update_Hidden_Or_Motor_Neuron(self, neurons, synapses):
-        self.Set_Value(0.0)
+        self.Set_Value(math.pi/4.0)
         for syn in synapses:
             if syn[1] is self.Get_Name():
                 currWeight = synapses[syn].Get_Weight()

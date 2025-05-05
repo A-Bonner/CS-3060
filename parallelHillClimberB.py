@@ -26,8 +26,8 @@ class PARALLELHILLCLIMBERB:
         self.spawn()
         self.mutate()
         self.evaluate(self.children)
-        self.select()
         self.print()
+        self.select()
 
     def spawn(self):
         self.children = {}
@@ -50,7 +50,7 @@ class PARALLELHILLCLIMBERB:
         print(len(self.parents))
         for i in range(len(self.parents)):
             for j in range(len(self.children)):
-                print("parent", i, ":", self.parents[i].fitness, "child", j, ":", self.children[j].fitness)
+                #print("parent", i, ":", self.parents[i].fitness, "child", j, ":", self.children[j].fitness)
                 self.data[i][j] = self.children[j].fitness
             print('\n')
 
