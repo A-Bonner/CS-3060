@@ -44,12 +44,11 @@ class PARALLELHILLCLIMBER:
 
     def select(self):
         for i in range(len(self.parents)):
-            for j in range(len(self.children)):
-                if self.parents[i].fitness < self.children[j].fitness:
-                    self.parents[i] = self.children[j]
+            if self.parents[i].fitness < self.children[i].fitness:
+                self.parents[i] = self.children[i]
 
     def print(self, gen):
-        print(len(self.parents))
+        #print(len(self.parents))
         for i in range(len(self.children)):
             #print("parent", i, ":", self.parents[i].fitness, "child", j, ":", self.children[j].fitness)
             self.data[i][gen] = self.children[i].fitness
@@ -91,6 +90,7 @@ class PARALLELHILLCLIMBER:
                 highest = self.parents[i].fitness
                 highID = i
         self.parents[highID].start_Simulation("GUI")
+        self.best = highest
 
 
     def evaluate(self, solutions):

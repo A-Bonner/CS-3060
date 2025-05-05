@@ -20,13 +20,13 @@ class PARALLELHILLCLIMBERB:
     def evolve(self):
         self.evaluate(self.parents)
         for currentGen in range(c.numberOfGenerations):
-            self.evolve_For_One_Generation()
+            self.evolve_For_One_Generation(currentGen)
 
-    def evolve_For_One_Generation(self):
+    def evolve_For_One_Generation(self, gen):
         self.spawn()
         self.mutate()
         self.evaluate(self.children)
-        self.print()
+        self.print(gen)
         self.select()
 
     def spawn(self):
@@ -42,17 +42,15 @@ class PARALLELHILLCLIMBERB:
 
     def select(self):
         for i in range(len(self.parents)):
-            for j in range(len(self.children)):
-                if self.parents[i].fitness < self.children[j].fitness:
-                    self.parents[i] = self.children[j]
+            if self.parents[i].fitness < self.children[i].fitness:
+                self.parents[i] = self.children[i]
 
-    def print(self):
-        print(len(self.parents))
-        for i in range(len(self.parents)):
-            for j in range(len(self.children)):
-                #print("parent", i, ":", self.parents[i].fitness, "child", j, ":", self.children[j].fitness)
-                self.data[i][j] = self.children[j].fitness
-            print('\n')
+    def print(self, gen):
+        #print(len(self.parents))
+        for i in range(len(self.children)):
+            # print("parent", i, ":", self.parents[i].fitness, "child", j, ":", self.children[j].fitness)
+            self.data[i][gen] = self.children[i].fitness
+            # print('\n')
 
 
     def show_best(self):
@@ -63,6 +61,7 @@ class PARALLELHILLCLIMBERB:
                 highest = self.parents[i].fitness
                 highID = i
         self.parents[highID].start_Simulation("GUI")
+        self.best = highest
 
 
     def evaluate(self, solutions):
